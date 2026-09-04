@@ -13,9 +13,9 @@ type Server struct {
 	logger     *slog.Logger
 }
 
-func New(port string, handler http.Handler, logger *slog.Logger) *Server {
+func New(addr string, handler http.Handler, logger *slog.Logger) *Server {
 	return &Server{
-		httpServer: &http.Server{Addr: port, Handler: handler, ReadHeaderTimeout: 5 * time.Second},
+		httpServer: &http.Server{Addr: addr, Handler: handler, ReadHeaderTimeout: 5 * time.Second},
 		logger:     logger,
 	}
 }

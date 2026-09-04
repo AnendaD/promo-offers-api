@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 
+	"promo-offers-api/internal/config"
 	httpserver "promo-offers-api/internal/http"
 	"promo-offers-api/internal/logger"
 
@@ -16,7 +17,7 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	logger := logger.New("local")
+	logger := logger.New(config.AppConfig.Level)
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
@@ -26,6 +27,6 @@ func main() {
 	r.Post("/offers/calculate", func(w http.ResponseWriter, r *http.Request) {})
 	r.Post("/offers/{id}/activate", func(w http.ResponseWriter, r *http.Request) {})
 
-	HTTPServer := httpserver.New("8081", r, logger)
+	HTTPServer := httpserver.New(config.AppConfig.Address, r, logger)
 	HTTPServer.Run(ctx)
 }
